@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>i18n example</title>
+    <!-- jQuery is required by i18next to work, jQuery.cookie just makes it easier for us to work with cookies -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://rawgit.com/carhartl/jquery-cookie/master/src/jquery.cookie.js"></script>
+    <!-- i18next is the library we use for localisation -->
+    <script src="js/i18next.min.js"></script>
+</head>
+<body>
+    <h1 data-i18n="index.the-cat"></h1>
+    <button onClick="window.translate('en')" data-i18n="index.english"></button>
+    <button onClick="window.translate('se')" data-i18n="index.swedish"></button>
+
+
+
+    <script type="text/javascript">
+    function translate(lng) {
+        $.cookie('i18next', lng);
+        location.reload();
+    }
+
+    var options = {
+        fallbackLng: 'en',
+        resGetPath: '/locales/__lng__/translation.json'
+    };
+
+    i18n.init(options, function(t) {
+        $(document.body).i18n();
+    });
+    </script>
+</body>
+</html>
