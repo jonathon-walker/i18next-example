@@ -11,25 +11,42 @@
 </head>
 <body>
     <h1 data-i18n="index.the-cat"></h1>
+
+    <!-- 
+        i18next uses the data-i18n attribute to look up the correct string to use.
+        There is an index.english inside both se/translation.json and en/translation.json
+    -->
     <button onClick="window.translate('en')" data-i18n="index.english"></button>
     <button onClick="window.translate('se')" data-i18n="index.swedish"></button>
 
-
-
     <script type="text/javascript">
-    function translate(lng) {
-        $.cookie('i18next', lng);
-        location.reload();
-    }
+        /*
+            i18next uses a cookie to keep track of the language it should use, 
+            so for example if lng = 'se' it will set the cookie to 'se' and force
+            the page to reload, which will apply the translations.
+        */
+        function translate(lng) {
+            $.cookie('i18next', lng);
+            location.reload();
+        }
 
-    var options = {
-        fallbackLng: 'en',
-        resGetPath: '/locales/__lng__/translation.json'
-    };
+        /*
+            fallbackLng is the language i18next will fall back to if it can't find the cookie.
 
-    i18n.init(options, function(t) {
-        $(document.body).i18n();
-    });
+            resGetPath specifies the path it will use to find the translation.json file for a 
+            given language. __lng__ becomes whatever value the cookie is set to.
+        */
+        var options = {
+            fallbackLng: 'en',
+            resGetPath: '/locales/__lng__/translation.json'
+        };
+
+        /*
+            initialise i18next, then when I'm ready, translate everything inside $(document.body)
+        */
+        i18n.init(options, function(t) {
+            $(document.body).i18n();
+        });
     </script>
 </body>
 </html>
